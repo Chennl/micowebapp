@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+ <!--必须-->
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<title>JSSDK </title>
+ <script th:src="@{/wx/js/jweixin-1.4.0.js}" ></script>
+ <script th:src="@{/wx/js/zepto.min.js}" ></script>
+ <script th:inline="javascript">
+ $(function(){
+ /*<![CDATA[*/
+        var timestamp =/*[[${jsapi_map.timestamp}]]*/'static_timestamp';
+        var signature = /*[[${jsapi_map.signature}]]*/'static_signature';
+        var ticket = /*[[${jsapi_map.jsapi_ticket}]]*/'static_jsapi_ticket';
+        var noncestr = /*[[${jsapi_map.nonceStr}]]*/'static_nonceStr';  
+        var url = /*[[${jsapi_map.url}]]*/'static_url';
+        var appid = /*[[${jsapi_map.appid}]]*/'static_appid';
+ /*]]>*/
+//         alert(timestamp);
+//         alert(ticket);
+        // var url1 = Location.href.split('#')[0];
+        
+         wx.config({
+            debug: true,
+            appId:  /*[[${jsapi_map.appid}]]*/'static_appid',
+            nonceStr: /*[[${jsapi_map.nonceStr}]]*/'static_nonceStr',
+            signature: /*[[${jsapi_map.signature}]]*/'static_signature',
+            timestamp: /*[[${jsapi_map.timestamp}]]*/'static_timestamp',
+            jsApiList: [
+                'checkJsApi',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'scanQRCode'
+
+            ]
+         });
+ });
+   </script>
+</head>
+<body>
+<div>
+	<input type="button" id="checkJsApi" value="checkJsApi"/>
+	<input type="button" id="btnCheckIn" value="签到"/>
+	<label id="lblLoacation">地址</label>
+	<input type="button" id="btnChooseImage" value="选择图片"/>
+	
+</div>
+<script>
+wx.ready(function () {
+    // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+    document.querySelector('#checkJsApi').onclick = function () {
+        wx.checkJsApi({
+            jsApiList: [
+                'checkJsApi',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'scanQRCode'
+            ],
+            success: function (res) {
+                alert(JSON.stringify(res));
+            }
+        });
+    };
+    
+    $("#btnChooseImage").bind("click",function(){
+   	 wx.chooseImage({
+   		    count: 9, // 默认9
+   		    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+   		    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+   		    success: function (res) {
+   		        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+   		    }
+   		});
+    
+    });
+    
+	wx.error(function (res) {
+	    alert(res);
+	});
+ });
+// document.querySelector("#btnChooseImage").onclick=function(){
+//     	wx.chooseImage({
+//     		count: 1, // 默认9
+//     		sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+//     		sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+//     		success: function (res) {
+//     		var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+//     		}
+//     		});
+//     }
+
+	
+// document.querySelector('#btnCheckIn').onclick= function () {
+// 	    wx.getLocation({
+// 	        type: 'wgs84',
+// 	        success: function (res) {
+// 	            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+// 	            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+// 	            var speed = res.speed; // 速度，以米/每秒计
+// 	            var accuracy = res.accuracy; // 位置精度
+// 	            $("#lblLoacation").text(latitude + "," + longitude);
+// 	            //解析坐标地址
+// 	            var location = latitude + "," + longitude;
+// 	            //$.ajax({
+	
+// 	            //});
+// 	        },
+// 	        fail: function (res) {
+// 	            alert(JSON.stringify(res));
+// 	        }
+// 	    });
+// 	};
+
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: micowebapp
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: chennl
+Implementation-Vendor-Id: com.micode
+Build-Jdk: 1.8.0_66
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/micowebapp
+Created-By: Maven Integration for Eclipse
+
